@@ -3,6 +3,9 @@ SOURCE FOR ALL THE INFORMATION BELLOW: https://tryhackme.com/room/windowsforensi
 _________________________________________________________________________________________________________________________________________________________________                             
 For persistance / privilege escalation
 
+Popup notifications:
+\Users\<username>\AppData\Local\Microsoft\Windows\Notifications\wpndatabase.db
+
 FYI, you can find info about services here:
 HKLM\SYSTEM\CurrentControlSet\services\
 
