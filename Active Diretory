@@ -11,15 +11,6 @@ And a good explanation about how kerberos works:
 
 __________________________________________________________________________________________________________________________________________________
 
-If I can't download any file and can only use the commands native to that machine, see: https://academy.hackthebox.com/module/143/section/1360
-
-_______________________________________________________________________________________________________________________________________________
-DIFFERENCE BETWEEN KERBEROS TICKETS AND NORMAL CREDENTIALS
-
-When we perform Kerberos authentication, we get a "ticket" that permits us to access the requested resource (i.e., a single machine). On the contrary, when we use a password to authenticate, that NTLM hash is stored in our session and can be used elsewhere without issue.
-
-
-__________________________________________________________________________________________________________________________________________________
 Domain Controller - Windows
 
 Service: SMB
@@ -48,16 +39,20 @@ Let's walk through a quick example of the attack flow at a very high level:
     This hash can then be cracked offline or used in an SMB Relay attack if the right conditions exist
 
 ________________________________________________________________________________________________________________________
-GET-ADUSER (enumerating if ServicePrincipalName, for kerberoasting)
+Certificate Templates Exploit: 
+Source: https://tryhackme.com/r/room/adcertificatetemplates
 
-First, import AD module
-PS C:\htb> Import-Module ActiveDirectory
+"The command will provide a bunch of output that may be difficult to read, but we are looking for some key indicators that will tell us that one of the templates is vulnerable. In the output, each template is denoted by Template[X] where X is the number. This can be used if you want to split the output from a single template.
 
-After
-PS C:\htb> Get-ADUser -Filter {ServicePrincipalName -ne "$null"} -Properties ServicePrincipalName
+The specific toxic parameter set that we are looking for is one that has the following:
 
-__________________________________________________________________________________________________________________________
+    A template where we have the relevant permissions to request the certificate or where we have an account with those permissions
+    A template that allows client authentication, meaning we can use it for Kerberos authentication
+    A template that allows us to alter the subject alternative name (SAN)"
+Ex of tool to use:
+certipy-ad find -u 'thm@lunar.eruca.com' -p Password1\@ -dc-ip 10.10.165.85 -vulnerable -enabled -old-bloodhound
 
+____________________________________________________________________________________________________________________________________
 LDAP ANONYMOUS BIND
 Besides ldapsearch, I can use windapsearch, seems to be easier.
 "Tools such as windapsearch make this easier (though we should still understand how to create our own LDAP search filters). Here we can specify anonymous access by providing a blank username with the -u flag and the -U flag to tell the tool to retrieve just users."
