@@ -1,0 +1,30 @@
+Securing Pods - examples:
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example-pod
+  Namespace: example-namespace
+spec:
+  securityContext: 
+      allowPrivilegeEscalation: false <<important>>
+      runAsUser: user <<important, not as root>>
+_________________________________________________________________
+
+Securing kubelets:
+apiVersion: kubelet.config.k8s.io/v1beta1
+authentication: 
+  anonymous: 
+    enabled: false <<important>>
+  webhook: 
+    cacheTTL: 0s 
+    enabled: true 
+  x509: 
+    clientCAFile: /var/lib/minikube/certs/ca.crt
+______________________________________________________________
+
+Securing Network communications in the pods (Network Policy yaml files)
+
+__________________________________________________________________________________
+
+Securing all the API traffic: see https://tryhackme.com/r/room/clusterhardening
