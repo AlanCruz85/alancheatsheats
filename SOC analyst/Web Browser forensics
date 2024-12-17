@@ -77,6 +77,40 @@ EXTENSIONS (Browser's Theme Installed):
 “C:\Users\[username]\AppData\Local\Microsoft\Edge\User Data\Default\Extensions\{randomfoldername}\*” on Edge,
 “C:\Users\[username]\AppData\Roaming\Opera Software\Opera Stable\Extensions\{randomfoldername}\*” on Opera.
 
+About extensions, a good file to start the analysis is "manifest.json", where the metadata about the extension informs to the webbrowser about permissions and files that will be used.
+Check specially the: permissions, background and content_script parts.
+
+For example:
+"manifest_version": 2,
+  "name": "ChatGPT",
+  "version": "1.0",
+  "description": "An AI-powered assistant extension.",
+  "permissions": [
+    "tabs",
+    "http://*/*",
+    "https://*/*",
+    "storage",
+    "webRequest",
+    "webRequestBlocking",
+    "cookies"
+  ],
+  "background": {
+    "scripts": ["system/loader.js"],
+    "persistent": true
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["core/app.js"]
+    }
+  ],
+  "browser_action": {
+    "default_popup": "assets/ui.html"
+  }
+}
+
+
+___________________________________________________________________________________________________________________
 PASSWORDS:
 
 Google Chrome:
